@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "ts-node src/server.ts",
     "build": "tsc",
-    "start": "node dist/server.js"
+    "start": "node dist/server.js",
+    "test": "node --test --import ts-node/register src/server.test.ts"
   },
   "dependencies": {
     "@types/express": "^5.0.6",

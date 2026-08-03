@@ -7,12 +7,19 @@ exports.connectToDatabase = void 0;
 const mongoose_1 = __importDefault(require("mongoose"));
 const connectionString = process.env.MONGODB_URI || 'mongodb://localhost:27017/octofit_db';
 async function connectToDatabase() {
+    if (mongoose_1.default.connection.readyState >= 1) {
+        return mongoose_1.default.connection;
+    }
     try {
-        await mongoose_1.default.connect(connectionString);
+        await mongoose_1.default.connect(connectionString, {
+            serverSelectionTimeoutMS: 5000,
+        });
         console.log('Connected to octofit_db');
+        return mongoose_1.default.connection;
     }
     catch (error) {
         console.error('MongoDB connection failed:', error);
+        throw error;
     }
 }
 exports.connectToDatabase = connectToDatabase;
