@@ -40,6 +40,27 @@ test('health endpoint responds with service metadata', async () => {
   });
 });
 
+test('health endpoint uses the Codespaces base URL when configured', async () => {
+  const previousCodespaceName = process.env.CODESPACE_NAME;
+  process.env.CODESPACE_NAME = 'octofit-demo';
+
+  try {
+    await withTestServer(async (baseUrl) => {
+      const response = await fetch(`${baseUrl}/api/health`);
+      assert.equal(response.status, 200);
+
+      const body = await response.json();
+      assert.equal(body.apiUrl, 'https://octofit-demo-8000.app.github.dev');
+    });
+  } finally {
+    if (previousCodespaceName === undefined) {
+      delete process.env.CODESPACE_NAME;
+    } else {
+      process.env.CODESPACE_NAME = previousCodespaceName;
+    }
+  }
+});
+
 test('users endpoint returns a populated payload', async () => {
   await withTestServer(async (baseUrl) => {
     const response = await fetch(`${baseUrl}/api/users/`);
