@@ -27,6 +27,8 @@ function normalizeItems(payload, fallbackKey) {
 }
 
 export default function Users() {
+  const USERS_API =
+  `https://${import.meta.env.VITE_CODESPACE_NAME}-8000.app.github.dev/api/users`
   const [items, setItems] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
@@ -39,7 +41,7 @@ export default function Users() {
         setLoading(true)
         setError('')
 
-        const response = await fetch(buildApiUrl('users'))
+        const response = await fetch(USERS_API)
         if (!response.ok) {
           throw new Error(`Request failed with ${response.status}`)
         }

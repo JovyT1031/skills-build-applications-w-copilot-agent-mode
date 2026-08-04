@@ -27,6 +27,8 @@ function normalizeItems(payload, fallbackKey) {
 }
 
 export default function Activities() {
+  const ACTIVITIES_API =
+  `https://${import.meta.env.VITE_CODESPACE_NAME}-8000.app.github.dev/api/activities`
   const [items, setItems] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
@@ -39,7 +41,7 @@ export default function Activities() {
         setLoading(true)
         setError('')
 
-        const response = await fetch(buildApiUrl('activities'))
+        const response = await fetch(ACTIVITIES_API)
         if (!response.ok) {
           throw new Error(`Request failed with ${response.status}`)
         }

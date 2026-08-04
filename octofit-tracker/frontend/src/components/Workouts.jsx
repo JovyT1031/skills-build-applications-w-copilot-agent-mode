@@ -27,6 +27,8 @@ function normalizeItems(payload, fallbackKey) {
 }
 
 export default function Workouts() {
+  const WORKOUTS_API =
+  `https://${import.meta.env.VITE_CODESPACE_NAME}-8000.app.github.dev/api/workouts`
   const [items, setItems] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
@@ -39,7 +41,7 @@ export default function Workouts() {
         setLoading(true)
         setError('')
 
-        const response = await fetch(buildApiUrl('workouts'))
+        const response = await fetch(WORKOUTS_API)
         if (!response.ok) {
           throw new Error(`Request failed with ${response.status}`)
         }
